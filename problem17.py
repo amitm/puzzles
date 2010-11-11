@@ -38,3 +38,16 @@ Solution is to figure out the base set and then just extrapolate, its more
 busy work than anything else
 
 """
+
+
+ones = ("one", "two", "three", "four", "five", "six", "seven", "eight", "nine")
+tens = ("ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen",
+        "sixteen", "seventeen", "eighteen", "nineteen")
+        
+  
+total = 0      
+for one in ones:
+    total += len(one)
+
+print total
+  
