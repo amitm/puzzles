@@ -44,15 +44,17 @@ base_numbers = ("one", "two", "three", "four", "five", "six",
                 "seven", "eight", "nine", "ten", "eleven", "twelve", 
                 "thirteen", "fourteen", "fifteen",
                 "sixteen", "seventeen", "eighteen", "nineteen")
-tens = ("twenty", "thirty", "fourty", "fifty", "sixty", "seventy", "eighty", "ninety")
+tens = ("twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety")
 
 total = 0
 for n in xrange(1, 1000):
     string = ""
     if n >= 100:
         index = n / 100
-        string += base_numbers[index - 1] + "hundredand"
+        string += base_numbers[index - 1] + "hundred"
         n -= index * 100
+        if n:
+            string += "and"
     if n > 19:
         index = n / 10
         string += tens[index - 2]
