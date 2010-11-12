@@ -39,15 +39,26 @@ busy work than anything else
 
 """
 
+# change these to their integer values
+base_numbers = ("one", "two", "three", "four", "five", "six", 
+                "seven", "eight", "nine", "ten", "eleven", "twelve", 
+                "thirteen", "fourteen", "fifteen",
+                "sixteen", "seventeen", "eighteen", "nineteen")
+tens = ("twenty", "thirty", "fourty", "fifty", "sixty", "seventy", "eighty", "ninety")
 
-ones = ("one", "two", "three", "four", "five", "six", "seven", "eight", "nine")
-tens = ("ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen",
-        "sixteen", "seventeen", "eighteen", "nineteen")
-        
-  
-total = 0      
-for one in ones:
-    total += len(one)
-
-print total
-  
+total = 0
+for n in xrange(1, 1000):
+    string = ""
+    if n >= 100:
+        index = n / 100
+        string += base_numbers[index - 1] + "hundredand"
+        n -= index * 100
+    if n > 19:
+        index = n / 10
+        string += tens[index - 2]
+        n -= index * 10
+    if n > 0:
+        string += base_numbers[n - 1]
+    total += len(string)
+    
+print total + len("onethousand")
