@@ -31,9 +31,7 @@ while len(available_numbers) > 0:
             index = i
         if index != -1:
             total += index * factorial
-            print "add"
             break
-    print size, index, total, factorial, index * factorial 
     num.append(available_numbers.pop(index))
 
 print num
