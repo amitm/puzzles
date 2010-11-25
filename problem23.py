@@ -36,24 +36,22 @@ def sum_divisors(number):
     return total
 
 def abundant_numbers():
-    numbers = []
+    numbers = set()
     for i in xrange(12, 28124):
         total = sum_divisors(i)
         if total > i:
-            numbers.append(i)
+            numbers.add(i)
     return numbers
 
 numbers = abundant_numbers()
-sums = []
+sums = set()
 for i in numbers:
     for j in numbers:
-        sums.append(i + j)
+        sums.add(i + j)
 
 total = 0
 for i in xrange(1, 28124):
-    try:
-        sums.index(i)
-    except ValueError:
+    if i not in sums:
         total += i
 
 print total
