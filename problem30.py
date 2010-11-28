@@ -17,19 +17,27 @@ of their digits.
 import math
 import time
 
-powers = (0, 1, 32, math.pow(3, 5), math.pow(4, 5), math.pow(5, 5), 
-          math.pow(6, 5), math.pow(7, 5), math.pow(8, 5), math.pow(9, 5))
+powers = (0, 
+          1, 
+          32, 
+          3 ** 5, 
+          4 ** 5,
+          5 ** 5,
+          6 ** 5,
+          7 ** 5,
+          8 ** 5,
+          9 ** 5)
 
 def sum_of_digits(number):
     digits = str(number)
     total = 0
     for i in digits:
         total += powers[int(i)]
+    return total
 
-start_time = time.clock()
-
-for i in xrange(2, 10000000):
+total = 0
+for i in xrange(2, 1000000):
     if i == sum_of_digits(i):
-        print i
-    
-print time.clock() - start_time
+        total += i
+
+print total
