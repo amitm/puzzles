@@ -35,7 +35,6 @@ total = 0
 filename = sys.argv[1]
 f = open(filename, 'r')
 for line in f:
-    print line
     if (is_triangle(word_score(line.strip()))):
         total += 1
 
