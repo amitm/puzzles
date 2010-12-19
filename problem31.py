@@ -8,50 +8,27 @@ It is possible to make L2 in the following way:
 1L1 + 150p + 220p + 15p + 12p + 31p
 How many different ways can L2 be made using any number of coins?
 
-1 way to make 1p (1 x 1p)
-2 ways to make 2p (2 x 1p, 1 x 2p)
-
-To make 3p:
-2 ways to make 2p x 1 way to make 1p = 2 ways
-
-To make 4p:
-
-4 x 1p
-2 x 1p + 1 x 2p
-2 x 2p
-
-3 ways
-
-
-To make 5p:
-
-1 x 5p
-2 x 2p + 1p
-1 x 1p + 3 x 1p
-5 x 1p
-
-To Make 6p:
-1 x 5p + 1 x 1p
-3 x 2p
-2 x 2p + 2 x 1p
-1 x 2p + 4 x 1p
-6 x 1p
-
-To Make 10p:
-10
-1 x 5p + 5 x 1
-
 """
 
-previous = 2
-coins = [2, 5, 10, 20, 50, 100, 200]
+coins = [1, 2, 5, 10, 20, 50, 100, 200]
 
-for i in xrange(3, 201):
-	total = previous
-	for j in coins:
-		remainder = i % j
-		if remainder != i and (remainder in coins or remainder == 0):
-			total += 1
-	print i, total
-	previous = total
+def num_ways(total, coins):
+	if total == 0:
+		return 1
+	total_ways = 0
+	unused_coins = list(coins)
+	for coin in coins:
+		multiplier = 1
+		unused_coins.remove(coin)		
+		while True:
+			amount = coin * multiplier
+			if amount > total:
+				break
+			else:
+				total_ways += num_ways(total - amount, unused_coins)
+			multiplier += 1
+	return total_ways
+
+print num_ways(200, coins)
+			
 
