@@ -14,11 +14,18 @@ r!(nr)!
 ,where r  n, n! = n(n1)...321, and 0! = 1.
 It is not until n = 23, that a value exceeds one-million: 23C10 = 1144066.
 
-How many, not necessarily distinct, values of  nCr, for 1  n  100, are greater than one-million?
+How many, not necessarily distinct, values of  nCr, for 1  n  100, are greater
+than one-million?
+
 """
 import math
 
 def choose(n, r):
     return math.factorial(n) / (math.factorial(r) * math.factorial(n - r))
 
-print choose(23, 24)
+count = 0
+for n in xrange(1, 101):
+    for r in xrange(1, n):
+        if choose(n, r) > 1000000:
+            count += 1
+print count
