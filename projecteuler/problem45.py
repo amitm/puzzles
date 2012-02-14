@@ -25,10 +25,11 @@ def is_hexagonal(number):
     intercept = 1.0 * (1 + x) / 4
     return intercept == int(intercept)
     
-i = 286
-while True:
-    number = get_triangle_number(i)
-    if is_pentagonal(number) and is_hexagonal(number):
-        print number
-        break
-    i += 1
+if __name__ == "__main__":
+    i = 286
+    while True:
+        number = get_triangle_number(i)
+        if is_pentagonal(number) and is_hexagonal(number):
+            print number
+            break
+        i += 1
