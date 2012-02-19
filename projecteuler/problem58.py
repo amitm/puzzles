@@ -27,7 +27,7 @@ sieve = get_sieve(10000000)
 def is_prime(num):
     if num < len(sieve):
         return sieve[num] == 1
-    limit = int(sqrt(num))
+    limit = int(sqrt(num)) + 1
     if limit > len(sieve):
         print "Error: sieve not large enough"
         return False
