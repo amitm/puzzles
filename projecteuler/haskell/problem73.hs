@@ -1,5 +1,3 @@
-import qualified Data.Set as Set
-
 hcf :: Int -> Int -> Int
 hcf m 0 = m
 hcf 0 n = n
