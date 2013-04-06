@@ -1,15 +1,6 @@
 import Data.Char (digitToInt)
 import qualified Data.Map as Map
 
-saved_steps = Map.fromList
-    [(169, 3),
-     (363601, 3),
-     (1454, 3),
-     (871, 2),
-     (45361, 2),
-     (872, 2),
-     (45362, 2)]
-
 factorial :: Int -> Int
 factorial n = foldl (*) 1 [1..n]
 
