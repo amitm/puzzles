@@ -12,6 +12,10 @@ How many different ways can one hundred be written as a sum of at least two
 positive integers?
 """
 
+def test():
+  print "Hello World"
+
+
 if __name__ == '__main__':
     # fairly simple dynamic programming solution
     num = 100
