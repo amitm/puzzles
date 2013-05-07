@@ -10,64 +10,56 @@ Link/Target As...'), a 31K text file containing a 80 by 80 matrix, from the top
 left to the bottom right by only moving right and down.
 """
 
-import sys
+
+def get_matrix(matrix_file):
+    return [[int(i) for i in line.strip().split(',')] for line in matrix_file]
+
 
 def get_graph(matrix):
     size = len(matrix)
-    graph_matrix = [size ** 2 * [0] for i in xrange(size ** 2)]
+    graph = [[] for i in xrange(size ** 2)]
+    for i in xrange(size):
+        for j in xrange(size):
+            # going down
+            current = i * size + j
+            if i < size - 1:
+                graph[current].append((current + size, matrix[i + 1][j]))
+            # going right
+            if j < size - 1:
+                graph[current].append((current + 1, matrix[i][j + 1]))
+    return graph
 
-    for row in xrange(size):
-        for col in xrange(size):
-            node = row * size + col
-            if col < size - 1:
-                graph_matrix[node][node + 1] = matrix[row][col + 1]
-            if row < size - 1:
-                graph_matrix[node][node + size] = matrix[row + 1][col]
-    return graph_matrix
 
-def get_neighbors(graph, node):
-    return [i for i in xrange(len(graph)) if graph[node][i] > 0]
+def topological_sort(graph):
+    seen = set([0])
 
-def get_path(graph, source, destination):
-    distances = {}
-    previous = {}
-    unoptimized_nodes = []
-    for v in xrange(len(graph)):
-        distances[v] = sys.maxint
-        previous[v] = None
-        unoptimized_nodes.append(v)
-    distances[source] = 0
-    unoptimized_nodes = set(unoptimized_nodes)
-    while len(unoptimized_nodes) > 0:
-        current_node = None
-        smallest_distance = sys.maxint
-        for node in unoptimized_nodes:
-            if distances[node] < smallest_distance:
-                smallest_distance = distances[node]
-                current_node = node
-        if smallest_distance == sys.maxint or current_node == destination:
-            break
-        unoptimized_nodes.remove(current_node)
-        
-        for neighbor in get_neighbors(graph, current_node):
-            distance = distances[current_node] + graph[current_node][neighbor]
-            if distance < distances[neighbor]:
-                distances[neighbor] = distance
-                previous[neighbor] = current_node
-    path = []
-    d = destination
-    while previous[d] is not None:
-        path.insert(0, d)
-        d = previous[d]
-    return path, distances[destination]
+    def ts_helper(v):
+        results = []
+        for edge in graph[v]:
+            if edge[0] not in seen:
+                seen.add(edge[0])
+                results = ts_helper(edge[0]) + results
+        return [v] + results
+    return ts_helper(0)
+
+
+# can be optomized
+def dag_shortest_path(graph, s):
+    # technically the topological sort isnt neccessary
+    sorted_verticies = topological_sort(graph)
+    data = [None] * len(graph)
+    data[s] = 0
+    for u in sorted_verticies:
+        if data[u] is not None:
+            for edge in graph[u]:
+                v = edge[0]
+                if data[v] is None or data[u] + edge[1] < data[v]:
+                    data[v] = data[u] + edge[1]
+    return data
+
 
 if __name__ == "__main__":
-    f = open('data/matrix.txt')
-    matrix = []
-    for line in f:
-        matrix.append([int(i) for i in line.split(',')])
-    print matrix
-    graph = get_graph(matrix)
-    print get_path(graph, 0, len(graph) - 1)[1] + matrix[0][0]
-
-    
+    with open('data/matrix.txt') as f:
+        mtx = get_matrix(f)
+        g = get_graph(mtx)
+        print dag_shortest_path(g, 0)[len(g) - 1] + mtx[0][0]
