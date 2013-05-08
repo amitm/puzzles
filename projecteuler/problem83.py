@@ -50,6 +50,32 @@ def get_graph(matrix):
     return graph
 
 
+def _min(distances):
+    min_i = None
+    min_distance = sys.maxint
+    for i, d in enumerate(distances):
+        if not d['completed'] and d['distance'] < min_distance:
+            min_i = i
+            min_distance = d['distance']
+    return min_i
+
+
+def dijkstra_small(graph, s):
+    distances = [{'distance': sys.maxint,
+                  'completed': False} for i in xrange(len(graph))]
+    distances[s]['distance'] = 0
+    while not all([d['completed'] for d in distances]):
+        u = _min(distances)
+        distances[u]['completed'] = True
+        for edge in graph[u]:
+            v = edge[0]
+            v_distance = distances[v]['distance']
+            new_distance = distances[u]['distance'] + edge[1]
+            if new_distance < v_distance:
+                distances[v]['distance'] = new_distance
+    return [d['distance'] for d in distances]
+
+
 def dijkstra(graph, s):
     distances = [sys.maxint] * len(graph)
     distances[s] = 0
@@ -57,6 +83,7 @@ def dijkstra(graph, s):
     while not queue.is_empty():
         u = queue.extract_min()
         u_distance = distances[u]
+        print u, u_distance
         for edge in graph[u]:
             v = edge[0]
             distance = distances[v]
@@ -71,4 +98,4 @@ if __name__ == "__main__":
     with open('data/matrix.txt') as f:
         mtx = get_matrix(f)
         graph = get_graph(mtx)
-        print dijkstra(graph, 0)[len(graph) - 1] + mtx[0][0]
+        print dijkstra_small(graph, 0)[len(graph) - 1] + mtx[0][0]
